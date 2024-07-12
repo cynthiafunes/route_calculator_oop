@@ -55,6 +55,22 @@ class Mapa:
             except ValueError:
                 print("Entrada inválida. Introduce números enteros.")
 
+    def gestionar_obstaculos(self):
+        while True:
+            accion = input("Escribe 't' para terminar, 'a' para añadir un obstáculo, o 'q' para quitar un obstáculo: ")
+            if accion == 't':
+                break
+            try:
+                x = int(input("Introduce la coordenada X del obstáculo: "))
+                y = int(input("Introduce la coordenada Y del obstáculo: "))
+                if accion == 'a':
+                    self.agregar_obstaculo(x, y)
+                elif accion == 'q':
+                    self.quitar_obstaculo(x, y)
+                self.imprimir()
+            except ValueError:
+                print("Entrada inválida. Introduce números enteros.")
+    
     def imprimir(self, camino=None):
         for fila in range(self.tamaño):
             for columna in range(self.tamaño):
@@ -68,22 +84,6 @@ class Mapa:
                     print(self.tablero[fila][columna], end='')
             print()
 
-    def gestionar_obstaculos(self):
-        while True:
-            accion = input("Escribe 'listo' para terminar, 'a' para añadir un obstáculo, o 'q' para quitar un obstáculo: ")
-            if accion == 'listo':
-                break
-            try:
-                x = int(input("Introduce la coordenada X del obstáculo: "))
-                y = int(input("Introduce la coordenada Y del obstáculo: "))
-                if accion == 'a':
-                    self.agregar_obstaculo(x, y)
-                elif accion == 'q':
-                    self.quitar_obstaculo(x, y)
-                self.imprimir()
-            except ValueError:
-                print("Entrada inválida. Introduce números enteros.")
-
 class CalculadoraRutas:
     def __init__(self, mapa):
         self.mapa = mapa
@@ -94,8 +94,6 @@ class CalculadoraRutas:
     def encontrar_ruta(self):
         inicio = self.mapa.inicio
         fin = self.mapa.fin
-        if not inicio or not fin:
-            return None
 
         lista_abierta = []
         heapq.heappush(lista_abierta, Nodo(inicio, 0, self.distancia_manhattan(inicio, fin)))
